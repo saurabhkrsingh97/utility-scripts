@@ -5,10 +5,10 @@ import cv2
 
 
 def run():
-    FOLDER_NAME = "crop_this"  # The folder it looks for in the current directory
-    face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
-
+    FOLDER_NAME = "crop_this"
     cropped_folder = "cropped_it"
+
+    face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 
     if not os.path.isdir(FOLDER_NAME):
         print("\nNo folder named '" + FOLDER_NAME + "' found in the current directory.\nExiting...")
@@ -18,39 +18,40 @@ def run():
         shutil.rmtree(cropped_folder)
 
     os.mkdir(cropped_folder)
+
     for folder in os.listdir(FOLDER_NAME):
-        i = 0
+
         os.chdir(FOLDER_NAME + "/" + folder)
 
+        # '.jpg' can be changed to the required file format to look for.
         images = [img for img in os.listdir() if img[-4:] == ".jpg"]
 
-        print(images)
         os.mkdir("../../" + cropped_folder + '/' + folder)
 
         for image in images:
 
             img = cv2.imread(image)
             gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-            print(image + " read.")
+            print("Processing " + image)
 
+            # Scale factor (2nd parameter) can be varied according to application - default 1.2
             faces = face_cascade.detectMultiScale(gray, 1.2, 5)
 
             if len(faces) is not 0:
-                print("face detected")
+
+                print("Face detected")
+
                 for (x, y, w, h) in faces:
                     cropped = img[y:y + h, x:x + w]
+                    file_path = "../../" + cropped_folder + '/' + folder + '/' + image
+                    cv2.imwrite(file_path, cropped)
 
-                    filepath = "../../" + cropped_folder + '/' + folder + '/' + image
-                    cv2.imwrite(filepath, cropped)
                     break
-                i += 1
             else:
-                print("face not detected")
+                print("NO face detected")
 
         os.chdir("../..")
-        pass
 
-    cv2.destroyAllWindows()
     sys.exit(0)
 
 
