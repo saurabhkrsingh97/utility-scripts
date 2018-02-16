@@ -1,3 +1,3 @@
 # Utility Scripts
 
-Python scripts for personal use in projects.
+Scripts/Datasets for personal use in projects.
