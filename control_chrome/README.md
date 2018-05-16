@@ -1,4 +1,5 @@
 ## control_chrome
+![stability-wip](https://img.shields.io/badge/stability-work_in_progress-lightgrey.svg)
 
 This is a rough sample script which can be used to control some actions of Google Chrome as shown below, and can be extended to include almost any functionality available thorugh the [Chrome JavaScript APIs](https://developer.chrome.com/extensions/api_index).
 
